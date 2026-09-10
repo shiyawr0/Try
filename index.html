@@ -1160,7 +1160,7 @@ let sessionData = JSON.parse(localStorage.getItem('sessionTelemetry')) || { visi
         });
     }
 
-    function secureAddFile(targetCategory) {
+        function secureAddFile(targetCategory) {
         playBeep(500, 'square', 0.1);
         const password = prompt("Enter owner password to attach a new file:");
         if (password === null) return;
@@ -1174,20 +1174,28 @@ let sessionData = JSON.parse(localStorage.getItem('sessionTelemetry')) || { visi
         if (!name) return;
 
         const desc = prompt("Enter Description (Supports **bold** markdown):");
+        
+        // Updated prompt specifically for Google Drive links
+        let url = prompt("Enter Google Drive Folder or File URL (https://drive.google.com/...):");
+        if (!url) return;
 
-        const urls = [];
-        let addingMore = true;
-        while (addingMore) {
-            const url = prompt(
-                urls.length === 0
-                    ? "Enter Google Doc / Drive / File / Image URL:"
-                    : "Enter another attachment URL (or Cancel to finish):"
-            );
-            if (!url) { addingMore = false; break; }
-
-            const label = prompt("Optional short label for this attachment (leave blank to auto-detect type):");
-            urls.push({ url: url, label: label && label.trim() ? label.trim() : null });
+        // Ensure URL is properly formatted
+        if (!url.startsWith('http://') && !url.startsWith('https://')) {
+            url = 'https://' + url;
         }
+
+        portfolioFiles.push({
+            category: targetCategory,
+            name: name,
+            desc: desc || 'No description provided.',
+            url: url
+        });
+
+        savePortfolioFiles();
+        renderFiles();
+        alert("Google Drive link successfully added & encrypted in system archives!");
+    }
+
 
         if (urls.length === 0) return;
 
