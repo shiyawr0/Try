@@ -1196,19 +1196,6 @@ let sessionData = JSON.parse(localStorage.getItem('sessionTelemetry')) || { visi
         alert("Google Drive link successfully added & encrypted in system archives!");
     }
 
-
-        if (urls.length === 0) return;
-
-        portfolioFiles.push({
-            category: targetCategory,
-            name: name,
-            desc: desc || 'No description provided.',
-            urls: urls
-        });
-
-        savePortfolioFiles();
-        renderFiles();
-        alert("File successfully added & encrypted in system archives!");
     }
 
   renderFiles();
